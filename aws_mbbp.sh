@@ -11,21 +11,26 @@ archive="s3://bc-sftp-processed/archive/mediabase/"
 incoming=($(aws s3 ls s3://bc-sftp-processed/mediabase/incoming/ | grep Mediabase_Big_Picture | sed 's/.* //'))
 mbbp='/home/ibex/mediabase_bigpicture/' 
 
+# Log entry variable.
+# Formats out to the abbreviated month (eg. "Nov"), day of the month, and time
+# (eg. "Nov 13 12:00:00"), followed by server name and PID.
+logstamp="$(date +%b) $(date +%d) $(date +%H:%M:%S) angus aws_mbbp[$$]"
+
 # Operation
 if [[ ${#incoming[@]} == 0 ]]; then
-    echo "No files found in $prefix"
+    echo "$logstamp: No files found in $prefix"
 else
     if [[ ${#incoming[@]} -gt 1 ]]; then
-        echo "Found ${#incoming[@]} files. Copying files to $mbbp"
+        echo "$logstamp: Found ${#incoming[@]} files. Copying files to $mbbp"
     else
-        echo "Found 1 file. Copying file to $mbbp"
+        echo "$logstamp: Found 1 file. Copying file to $mbbp"
     fi
     for i in ${incoming[@]}; do
         if aws s3 cp ${prefix}${i} ${mbbp}; then
-            echo "Moving file to archive..."
+            echo "$logstamp: Moving file to archive..."
             aws s3 mv ${prefix}${i} ${archive}$(date +%Y%m%d.%H%M%S.%2N)/
         else
-            echo "Error. Could not transfer file." >&2
+            echo "$logstamp: Error. Could not transfer file." >&2
             break
         fi
     done
