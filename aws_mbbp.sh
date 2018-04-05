@@ -6,10 +6,10 @@
 # a timestamped prefix as '/archive/mediabase/[TIMESTAMP]/'.
 
 # Variables
-prefix='s3://bc-sftp-processed/mediabase/incoming/'
-archive="s3://bc-sftp-processed/archive/mediabase/"
+PREFIX='s3://bc-sftp-processed/mediabase/incoming/'
+ARCHIVE="s3://bc-sftp-processed/archive/mediabase/"
 incoming=($(aws s3 ls s3://bc-sftp-processed/mediabase/incoming/ | grep Mediabase_Big_Picture | sed 's/.* //'))
-mbbp='/home/ibex/mediabase_bigpicture/' 
+MBBP='/home/ibex/mediabase_bigpicture/' 
 
 # Log entry variable.
 # Formats out to the abbreviated month (eg. "Nov"), day of the month, and time
@@ -18,17 +18,17 @@ logstamp="$(date +%b) $(date +%d) $(date +%H:%M:%S) angus aws_mbbp[$$]"
 
 # Operation
 if [[ ${#incoming[@]} == 0 ]]; then
-    echo "$logstamp: No files found in $prefix"
+    echo "$logstamp: No files found in $PREFIX"
 else
     if [[ ${#incoming[@]} -gt 1 ]]; then
-        echo "$logstamp: Found ${#incoming[@]} files. Copying files to $mbbp"
+        echo "$logstamp: Found ${#incoming[@]} files. Copying files to $MBBP"
     else
-        echo "$logstamp: Found 1 file. Copying file to $mbbp"
+        echo "$logstamp: Found 1 file. Copying file to $MBBP"
     fi
     for i in ${incoming[@]}; do
-        if aws s3 cp ${prefix}${i} ${mbbp}; then
+        if aws s3 cp ${PREFIX}${i} ${MBBP}; then
             echo "$logstamp: Moving file to archive..."
-            aws s3 mv ${prefix}${i} ${archive}$(date +%Y%m%d.%H%M%S.%2N)/
+            aws s3 mv ${PREFIX}${i} ${ARCHIVE}$(date +%Y%m%d.%H%M%S.%2N)/
         else
             echo "$logstamp: Error. Could not transfer file." >&2
             break
