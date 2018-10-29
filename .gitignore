@@ -1,0 +1,111 @@
+##########################
+*.o
+*.so
+*.pyc
+*.pyo
+
+# protoc generated files #
+##########################
+*.pb.h
+*.pb.cc
+
+# SCons files and dirs   #
+##########################
++*
+.*.dblite
+
+# Temporary files        #
+##########################
+*.sw?
+*.*~
+.DS_Store
+
+# Java files             #
+##########################
+target/
+
+# Eclipse files          #
+##########################
+.settings
+.classpath
+.project
+.externalToolBuilders
+.springBeans
+.factorypath
+bin
+
+# IntelliJ IDEA files    #
+##########################
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# NetBeans files         #
+##########################
+nb*.xml
+
+# Miscellaneous          #
+##########################
+*.log
+
+# Gradle template        #
+##########################
+.gradle
+/build/
+
+# Ignore Gradle GUI config #
+############################
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored) #
+###########################################################################
+!gradle-wrapper.jar
+
+# Cache of project        #
+###########################
+.gradletasknamecache
+
+#  node stuff          #
+##########################
+ui/app/node
+.cache
+.tmp
+node_modules
+pom.xml.versionsBackup
+node_modules_production
+.tern-project 
+coverage
+
+#test for dev properties #
+##########################
+*.dev.properties
+*.local.properties
+
+# external git diff tool files #
+################################
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.REMOTE.*
+*.LOCAL.*
+.metadata/
+RemoteSystemsTempFiles
+
+# Terraform template #
+######################
+*.tfstate*
+.terraform/
+.terraform-rq/
+.terraformer/
+.terragrunt/
+terraform-rq/.terragrunt
+terraform/.terragrunt
+*.orig
+
+=======
+**/.project
+**/.settings/
+**/.DS_Store
+**/.classpath
+**/target/
